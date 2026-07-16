@@ -115,6 +115,48 @@ insert into Departmentss (DeptID, Dept_name) values (1,'Finance'),(2,'IT'),(3,'H
 
 select d.DeptID, d.Dept_name from Departmentss d left join EmployeeInfo e on d.DeptID = e.DeptID where e.Emp_id is null;
 
+select * from EmployeeInfo;
+show indexes from EmployeeInfo;
+create unique index idx_Emp_id on EmployeeInfo(Emp_id);
+drop index idx_Emp_id on EmployeeInfo;
+alter table EmployeeInfo
+add unique index idx_Emp_id(Emp_id);
+create unique index idx_Emp_name on EmployeeInfo(Emp_name);
+alter table EmployeeInfo
+alter index idx_Emp_name invisible;
+select avg(Salary) from EmployeeInfo;
+select * from EmployeeInfo where Salary >(select avg(Salary) from EmployeeInfo);
+
+select * from (select Department, avg(Salary) as avg_salary from EmployeeInfo
+group by Department) as DEPT order by avg_salary desc;
+
+select Department, avg(Salary) as avg_salary from EmployeeInfo
+group by Department;
+
+update EmployeeInfo
+set Salary=16000 where Emp_id=3;
+
+#Derived Table Query.
+update EmployeeInfo 
+set Salary=(select Salary from(select Salary from EmployeeInfo where Emp_id=5) as Emp_Salary)
+where Emp_id =4 ;
+
+select max(Salary) as max_salary from EmployeeInfo where Salary<(select max(Salary) from EmployeeInfo);
+
+select Emp_name, Department, Salary  from EmployeeInfo e1 where Salary>(select avg(Salary)
+from EmployeeInfo e2 where e2.Department=e1.Department);
+
+select Department, Salary  from EmployeeInfo e1 where Salary=(select max(Salary)
+from EmployeeInfo e2 where e2.Department=e1.Department);
+
+select  Department, Salary  from EmployeeInfo e1 where Salary=(select min(Salary)
+from EmployeeInfo e2 where e2.Department=e1.Department);
+
+
+
+
+
+
 
 
 
